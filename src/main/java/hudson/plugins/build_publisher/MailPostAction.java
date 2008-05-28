@@ -10,6 +10,7 @@ import hudson.tasks.Publisher;
 import hudson.plugins.emailext.ExtendedEmailPublisher;
 import hudson.plugins.emailext.plugins.EmailTrigger;
 import hudson.tasks.Publisher;
+import hudson.util.DescribableList;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
@@ -72,6 +73,13 @@ public class MailPostAction implements BuildPublisherPostAction {
             if(method.getName().equals("getPublisher") && (types.length == 1) && (types[0].getName().equals("hudson.model.Descriptor"))) {
                 return (Publisher) method.invoke(project, descriptor);
             }
+            if(method.getName().equals("getPublishers") && (types.length == 0) && 
+             (method.getReturnType().getName().equals("hudson.util.DescribableList"))) {
+                 Object publishers = method.invoke(project);
+                 if(publishers instanceof DescribableList) {
+                     return (Publisher) ((DescribableList) publishers).get(descriptor);
+                 }
+             }
         }
         return null;
     }
