@@ -12,7 +12,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * $PUBLIC_HUDSON_URL = url of public hudson instance
+ * 
  * @author dvrzalik
  */
 public class BuildPublisherContent implements EmailContent {

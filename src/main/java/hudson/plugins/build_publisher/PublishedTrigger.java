@@ -31,7 +31,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 /**
- *
+ * A trigger for extended mail notification which sends mail upon build publication via the build-publisher plugin.
+ * 
  * @author dvrzalik
  */
 public class PublishedTrigger extends EmailTrigger {

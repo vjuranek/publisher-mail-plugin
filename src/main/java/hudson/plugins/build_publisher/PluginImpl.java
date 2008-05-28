@@ -6,8 +6,10 @@ import hudson.plugins.emailext.ExtendedEmailPublisher;
 
 
 /**
- * Entry point of a plugin.
+ * Entry point of the publisher-mail plugin.
+ * 
  * @plugin
+ * @author dvrzalik
  */
 public class PluginImpl extends Plugin {
 

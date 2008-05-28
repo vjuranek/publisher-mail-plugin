@@ -21,11 +21,13 @@ import java.util.logging.Logger;
  */
 public class MailPostAction implements BuildPublisherPostAction {
 
+    /**
+     * Searches for email-ext publisher and publisher-mail trigger, then sends a notification.
+     */
     public void post(AbstractBuild build, HudsonInstance publicHudson) {
         
         AbstractProject project = build.getProject();
         try {
-            
             Publisher result = getPublisher(project, ExtendedEmailPublisher.DESCRIPTOR);
             if(result instanceof ExtendedEmailPublisher) {
                 ExtendedEmailPublisher publisher = (ExtendedEmailPublisher) result;
@@ -60,6 +62,9 @@ public class MailPostAction implements BuildPublisherPostAction {
         }
     }
     
+    /**
+     * @return Publisher for the project, if there is any.
+     */
     public static Publisher getPublisher(AbstractProject project, Descriptor<Publisher> descriptor) throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         Method[] methods = project.getClass().getMethods();
         for(Method method: methods) {
