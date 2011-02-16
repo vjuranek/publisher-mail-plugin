@@ -16,7 +16,8 @@ import hudson.plugins.emailext.plugins.EmailTriggerDescriptor;
 public class PublishedTrigger extends EmailTrigger {
 
     @Override
-    public <P extends AbstractProject<P,B>,B extends AbstractBuild<P,B>> boolean trigger(B build) {
+    public boolean trigger(AbstractBuild<?,?> build){
+    //public <P extends AbstractProject<P,B>,B extends AbstractBuild<P,B>> boolean trigger(B build) {
         //notification should be sent after the build is published
         return false;
     }
