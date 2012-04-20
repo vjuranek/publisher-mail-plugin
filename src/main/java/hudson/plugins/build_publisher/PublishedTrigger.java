@@ -1,12 +1,15 @@
 package hudson.plugins.build_publisher;
 
+import hudson.model.BuildListener;
 import hudson.model.AbstractBuild;
 import hudson.model.AbstractProject;
-import hudson.model.BuildListener;
 import hudson.plugins.emailext.EmailType;
 import hudson.plugins.emailext.ExtendedEmailPublisher;
 import hudson.plugins.emailext.plugins.EmailTrigger;
 import hudson.plugins.emailext.plugins.EmailTriggerDescriptor;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * A trigger for extended mail notification which sends mail upon build publication via the build-publisher plugin.
@@ -63,7 +66,19 @@ public class PublishedTrigger extends EmailTrigger {
             return false;
         }
         
-        publisher.sendMail(mailType,build,listener);
+        // sendMail is private, better to solve it here than create a fork of email-ext
+        Class params[] = {EmailType.class,AbstractBuild.class,BuildListener.class};
+        try{
+            Method m = publisher.getClass().getDeclaredMethod("sendMail", params);
+            m.setAccessible(true);
+            m.invoke(publisher,mailType,build,listener);
+        } catch(NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch(IllegalAccessException e) {
+            e.printStackTrace();
+        } catch(InvocationTargetException e) {
+            e.printStackTrace();
+        }
 
         return true;
     }    
